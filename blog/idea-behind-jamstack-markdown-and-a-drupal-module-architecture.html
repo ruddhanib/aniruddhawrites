@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Idea on JAMstack, Markdown and a Drupal module, part 3 — Microservices and why it’s essential - Aniruddha's AI & Analytics Blog</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="../index.html" class="brand">Aniruddha's AI & Analytics</a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../portfolio.html">Portfolio</a>
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main class="site-main">
+    <article class="blog-post-page">
+      <div class="blog-post-header">
+        <div class="post-meta">
+          <span>JAMstack</span>
+          <span>October 20, 2019</span>
+          <span>986 words</span>
+        </div>
+        <h1>Idea on JAMstack, Markdown and a Drupal module, part 3 — Microservices and why it’s essential</h1>
+        <p class="intro-copy">Microservices are the most important part of JAMstack, the A stands for API, is the only feature with which a static site can keep it’s fast, secure, robust ness, having a dynamic behavior.</p>
+        <p class="post-author">By Aniruddha</p>
+      </div>
+      <div class="post-hero"><img src="../content/images/JAMstack-architecture.png" alt="Idea on JAMstack, Markdown and a Drupal module, part 3 — Microservices and why it’s essential"></div>
+      <div class="blog-post-body">
+        <p>According to wikipedia, COMPOSER is an application-level package manager for PHP, and we will learn few more features about it. <img src="https://bloganiruddha.files.wordpress.com/2018/06/according-to-wikipedia-composer-definition.png" alt="according-to-wikipedia-composer-definition">   Download & Setup</p>
+<ul>
+<li>Windows : Download and run <a href="https://getcomposer.org/Composer-Setup.exe">Composer-Setup.exe</a></li>
+<li>Preferred way:</li>
+<li>Know your PHP version open cmd or gitbash and run _php –v_</li>
+<li>Prepare a shell script/bat file (composersetup.sh/composersetup.bat)</li>
+<li>Content of the shell script executable are:</li>
+</ul>
+<p><code>php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"</code> <code>php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52</code> <code>599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061’)</code> <code>{ echo 'Installer verified'; }</code> <code>else { echo 'Installer corrupt’;</code> <code>unlink('composer-setup.php'); } echo PHP_EOL;"</code> <code><span style="color: #0000ff;"><strong>php composer-setup.php</strong></span></code> <code>php -r "unlink('composer-setup.php');"</code>   Perhaps you noticed the php execution statement is in blue color. Whats in it?   <img src="https://bloganiruddha.files.wordpress.com/2018/06/i-can-do-more.png" alt="i-can-do-more"> So with these options you can setup composer : <code>php composer-setup.php --install-dir=bin --filename=composerbin --version=1.0.0-alpha8</code> So how dependencies injected and</p>
+<ul>
+<li>What are your need</li>
+<li>How composer resolves them</li>
+<li>What is dependency injected</li>
+</ul>
+<p>Answers are:</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<ul>
+<li>Composer is <strong>not </strong>a package manager</li>
+<li>Composer deals with "packages" or libraries, can manage per-project basis</li>
+<li>Installing them in a directory (e.g. <strong>vendor</strong>) inside your project (configurable)</li>
+<li>Composer is a dependency manager. It Injects package dependency via autoload psr-4</li>
+<li>Composer is built inspired by node's npm and ruby's bundler</li>
+</ul>
+<p><strong>Your Need:</strong></p>
+<ul>
+<li>You have a project that depends on a number of libraries.</li>
+<li>Some of those libraries depend on other libraries.</li>
+</ul>
+<p><strong>Composer</strong> <strong>solution:</strong></p>
+<ul>
+<li>Enables you to declare the libraries you depend on.</li>
+<li>Finds out which versions of which packages can and need to be installed</li>
+<li>and installs them (meaning it downloads them into your project and inject).</li>
+</ul>
+<ul>
+<li><em> </em></li>
+</ul>
+<p>Now its time to show you an example of Composer.json in detail view: <img src="https://bloganiruddha.files.wordpress.com/2018/06/composer-dot-json-a-detail-view.png" alt="composer-dot-json-a-detail-view"></p>
+<p><div id="Fig-3">Source: <a href="https://getcomposer.org/doc/06-config.md#config">Getcomposer.org</a></div></p>
+<p>Fig-3 You created a composer.json file for your project, so now its time to install the dependencies <a href="https://getcomposer.org/doc/03-cli.md#install">require(for all environment) and require-dev(for debugging environment only)]. The command is: composer install --prefer-source -o ...there are so many arguments you can pass to change the installation procedure and bring stability and so more....I just quoted options from [GetComposer.org</a> itself:</p>
+<h3>Options</h3>
+<ul>
+<li><strong>--prefer-source:</strong> There are two ways of downloading a package: <code>source</code> and <code>dist</code>. For stable versions Composer will use the <code>dist</code> by default. The <code>source</code> is a version control repository. If <code>--prefer-source</code> is enabled, Composer will install from <code>source</code> if there is one. This is useful if you want to make a bugfix to a project and get a local git clone of the dependency directly.</li>
+<li><strong>--prefer-dist:</strong> Reverse of <code>--prefer-source</code>, Composer will install from <code>dist</code> if possible. This can speed up installs substantially on build servers and other use cases where you typically do not run updates of the vendors. It is also a way to circumvent problems with git if you do not have a proper setup.</li>
+<li><strong>--dry-run:</strong> If you want to run through an installation without actually installing a package, you can use <code>--dry-run</code>. This will simulate the installation and show you what would happen.</li>
+<li><strong>--dev:</strong> Install packages listed in <code>require-dev</code> (this is the default behavior).</li>
+<li><strong>--no-dev:</strong> Skip installing packages listed in <code>require-dev</code>. The autoloader generation skips the <code>autoload-dev</code> rules.</li>
+<li><strong>--no-autoloader:</strong> Skips autoloader generation.</li>
+<li><strong>--no-scripts:</strong> Skips execution of scripts defined in <code>composer.json</code>.</li>
+<li><strong>--no-progress:</strong> Removes the progress display that can mess with some terminals or scripts which don't handle backspace characters.</li>
+<li><strong>--no-suggest:</strong> Skips suggested packages in the output.</li>
+<li><strong>--optimize-autoloader (-o):</strong> Convert PSR-0/4 autoloading to classmap to get a faster autoloader. This is recommended especially for production, but can take a bit of time to run so it is currently not done by default.</li>
+<li><strong>--classmap-authoritative (-a):</strong> Autoload classes from the classmap only. Implicitly enables <code>--optimize-autoloader</code>.</li>
+<li><strong>--apcu-autoloader:</strong> Use APCu to cache found/not-found classes.</li>
+<li><strong>--ignore-platform-reqs:</strong> ignore <code>php</code>, <code>hhvm</code>, <code>lib-<em></code> and <code>ext-</em></code> requirements and force the installation even if the local machine does not fulfill these. See also the <a href="https://getcomposer.org/doc/06-config.md#platform"><code>platform</code></a> config option.</li>
+</ul>
+<p>Have you observed the script section in <a id="Fig-3"></a>Fig-3 right. You can run any number of  pre, post and custom scripts with dependency installation. e.g. Symfony 3.4 version does: <code>"symfony-scripts": [</code> <code>        "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",</code> <code>        .......................</code> <code>],</code> <code>"post-install-cmd": [</code> <code>        "@symfony-scripts"</code> <code>],</code> <code>"post-update-cmd": [</code> <code>        "@symfony-scripts"</code> <code>]</code> So it defines a names script "symfony-script" and running at pre and post installation. Interesting dahh!!! Once your installation process is done, composer will create a lock file.</p>
+<ul>
+<li>composer.lock file have all version specific details of packages, locking the project to those specific versions</li>
+<li>So, you understand that this is a best practice to commit the composer.lock file, so others working on the project are locked to the same versions of dependencies</li>
+<li>and If no composer.lock file present, Composer simply resolves all dependencies listed in your composer.json file and downloads the latest version of their files (remember lock helps in caching as well, location is<c:\users\user_name\appdata\roaming\composer></c:\users\user_name\appdata\roaming\composer></li>
+</ul>
+<p>Likewise for my project the lock file look like: <img src="https://bloganiruddha.files.wordpress.com/2018/06/composer-dot-lock-file.png" alt="composer-dot-lock-file">   Pretty much done..last and not the least. Why we are installing via composer, aren't those packages not having downloadable links today !!!! Indeed, all these dependencies can be manually downloaded . Composer basically looks a repo list : <a href="https://packagist.org/">Packagist</a>. Go and search for "doctrine/doctrine-bundle" and you will see :   <img src="https://bloganiruddha.files.wordpress.com/2018/06/packagist-the-repo-list.png" alt="packagist-the-repo-list"> Go to the details page of the bundle/package..   <img src="https://bloganiruddha.files.wordpress.com/2018/06/packagist-knows-where-the-bundle-can-be-downloaded.png" alt="packagist-knows-where-the-bundle-can-be-downloaded"> Notice the homepage url and its github. So you can download it from github easilty. So again why composer..... Simply said, to add the package, in earlier days, you have to use the package namespace as require. But new things evolved. Now psr-4 autoload can do it for you. You notice the below line in composer.json, I am copying as Symfony 3.4 version provides.. <code>"autoload": {</code> <code>        "psr-4": {</code> <code>        "AppBundle\\": "src/AppBundle"</code> <code>    },</code> <code>   "classmap": [</code> <code>        "app/AppKernel.php",</code> <code>        "app/AppCache.php"</code> <code>    ]</code> <code>}</code> so it gives you the bootstrap and there will be a "autoload.php" inside your vendor directory, it will take care the bootstrapping for you. Walla!!!!!!! stay tuned for the next phase of this topic..TC</p>
+      </div>
+      <div class="post-actions">
+        <a href="../blog.html" class="button button-secondary">← Back to Blog</a>
+        <a href="../contact.html" class="button button-primary">Discuss This Topic</a>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>&copy; 2024 Aniruddha's AI & Analytics Blog. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

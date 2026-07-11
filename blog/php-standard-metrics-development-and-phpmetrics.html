@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PHP standard metrics development and PHPMetrics - Aniruddha's AI & Analytics Blog</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="../index.html" class="brand">Aniruddha's AI & Analytics</a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../portfolio.html">Portfolio</a>
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main class="site-main">
+    <article class="blog-post-page">
+      <div class="blog-post-header">
+        <div class="post-meta">
+          <span>modern-web-technology</span>
+          <span>July 26, 2019</span>
+          <span>160 words</span>
+        </div>
+        <h1>PHP standard metrics development and PHPMetrics</h1>
+        <p class="intro-copy"> PHPMetrics provides tons of metrics, Complexity: Cyclomatic complexity, Myer's interval, Relative system complexity, Volume: Vocabulary, Data complexity, Lines of code, Readability..., Object Oriented: Lack of cohesion of methods, Coupling, Abstraction..., Maintainability: Maintainability index, Halstead's metrics, Effort..., And many more ! An excerpt</p>
+        <p class="post-author">By ruddhani</p>
+      </div>
+      <div class="post-hero"><img src="../content/images/phpmetrics-supporting-development.png" alt="PHP standard metrics development and PHPMetrics"></div>
+      <div class="blog-post-body">
+        <p>What is PHPMetrics and how can I use it?</p>
+<ul>
+<li>PHPMetrics provides tons of metrics:</li>
+<li>Complexity: Cyclomatic complexity, Myer's interval, Relative system complexity</li>
+<li>Volume: Vocabulary, Data complexity, Lines of code, Readability...</li>
+<li>Object Oriented: Lack of cohesion of methods, Coupling, Abstraction...</li>
+<li>Maintainability: Maintainability index, Halstead's metrics, Effort...</li>
+<li>And more !</li>
+</ul>
+<p>As said by <a href="http://www.phpmetrics.org/">PHPMEtrics.org</a>, its a static analysis tool for PHP</p>
+<p>So its is pretty much defined there, few things I want to highlight.</p>
+<p>Install as a dev-dependency, your production server should not be loaded with it. So the composer.json entry should be:</p>
+<pre><code>
+"require-dev": {
+</code></pre>
+<pre><code>
+        "phpmetrics/phpmetrics": "2.3.2",
+</code></pre>
+<pre><code>
+        ...
+</code></pre>
+<pre><code>
+}
+</code></pre>
+<p>Or, you can download the phar from github, and run as:</p>
+<p>php /c/bin/phpmetrics.phar --report-html=metrics-report .</p>
+<p>Now you have to link /metric-report/index.html so that it can be published to reviewers.</p>
+<p>Pretty cool right!! You want a Drupal 8 module...if so check my phpmetricsintegration module, usuage are in project page (Y)</p>
+      </div>
+      <div class="post-actions">
+        <a href="../blog.html" class="button button-secondary">← Back to Blog</a>
+        <a href="../contact.html" class="button button-primary">Discuss This Topic</a>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>&copy; 2024 Aniruddha's AI & Analytics Blog. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

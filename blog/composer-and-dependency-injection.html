@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>When Data Becomes the Bottleneck: Unmasking the Real Culprit Behind SLT Misses - Aniruddha's AI & Analytics Blog</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="../index.html" class="brand">Aniruddha's AI & Analytics</a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../portfolio.html">Portfolio</a>
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main class="site-main">
+    <article class="blog-post-page">
+      <div class="blog-post-header">
+        <div class="post-meta">
+          <span>modern-web-technology</span>
+          <span>May 13, 2026</span>
+          <span>1375 words</span>
+        </div>
+        <h1>When Data Becomes the Bottleneck: Unmasking the Real Culprit Behind SLT Misses</h1>
+        <p class="intro-copy">We are working with composer almost from the same time, when Symfony 2 released. Though this package manager evolves with its own signature describing the very popular Design Pattern "Dependency Injection". Today most of the PHP frameworks uses it. Let me explain some interesting facts about composer.</p>
+        <p class="post-author">By ruddhani</p>
+      </div>
+      <div class="post-hero"><img src="../content/images/composer-and-dependency-injection.png" alt="When Data Becomes the Bottleneck: Unmasking the Real Culprit Behind SLT Misses"></div>
+      <div class="blog-post-body">
+        <h2>We kept blaming the data. Turns out, the data was innocent. 🔍</h2>
+<p>For weeks, our SLTs were being missed. Query timeouts. Stale dashboards. Frustrated users. Every indicator pointed at the data layer — so that's where we dug.</p>
+<p>What we actually found:</p>
+<p>🔴 The root cause wasn't bad data — it was data CONTENTION. Hundreds of concurrent queries fighting over the same shared Fabric capacity, queuing, blocking, and cascading into failure.</p>
+<p>🌍 And then there was the geography problem nobody had mapped — our Fabric capacity tenant sitting across the Atlantic, adding 80–150ms of round-trip latency to EVERY query. Not slow computation. Slow continents.</p>
+<p>The result? Gateway timeouts that looked like data failures. Connection abortions mid-flight. SLT compliance sitting at 54%.</p>
+<p>Once we tackled concurrency limits, workload management, and migrated our tenant region closer to our users?</p>
+<p>✅ Response times dropped 68%</p>
+<p>✅ SLT compliance hit 91%</p>
+<p>✅ Gateway timeouts: near zero</p>
+<p>The data was fine the whole time. We were just asking too much of it, from too far away.</p>
+<p>Full write-up in the article below 👇 — especially relevant if you're running analytics on Microsoft Fabric or dealing with cross-region BI deployments.</p>
+<p>#DataEngineering #MicrosoftFabric #PowerBI #DataPlatform #CloudArchitecture #Analytics #PerformanceEngineering #ServiceLevels</p>
+<p><em>A deep-dive into how high-concurrency query contention and cross-Atlantic infrastructure latency quietly erode service levels — and what to do about it.</em></p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>The Symptom Everyone Sees, The Cause Nobody Suspects</h3>
+<p>In most performance post-mortems I've been part of, the conversation starts the same way: <strong>"The data is slow."</strong></p>
+<p>Dashboards are lagging. Reports are timing out. Business users are frustrated. SLTs (Service Level Targets) are being breached, and fingers are pointing squarely at the data layer.</p>
+<p>And to be fair — the data <em>is</em> where the pain surfaces. But here's the uncomfortable truth that took us time to fully unpack:</p>
+<p>> <strong>The data wasn't broken. The data was overwhelmed — and it had a geography problem.</strong></p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>The Investigation: Peeling Back the Layers</h3>
+<h3>Layer 1 — SLT Misses and the Data Blame Game</h3>
+<p>Our Service Level Targets were consistently missed during peak business hours. Query response times that should have landed under 3 seconds were stretching to 30, 60, sometimes over 120 seconds. Dashboards were either stale or outright failing to load.</p>
+<p>The immediate assumption? Data quality issues. Bad indexes. Poorly written queries. An overloaded dataset.</p>
+<p>We tuned queries. We rebuilt indexes. We optimised data models.</p>
+<p>The problem persisted.</p>
+<h3>Layer 2 — The Real Root Cause: Data Contention Under Concurrent Load</h3>
+<p>What our monitoring eventually revealed was not a <em>quality</em> problem but a <strong>concurrency problem</strong>.</p>
+<p>During peak hours, hundreds of users were simultaneously firing queries against the same datasets. The underlying engine — running on a shared Microsoft Fabric capacity — was not failing because the data was wrong. It was failing because <strong>too many queries were competing for the same computational resources at the same time</strong>.</p>
+<p>This is <strong>data contention</strong>: a condition where high volumes of concurrent queries queue up, block each other, and create a cascading slowdown that ripples all the way to the end user experience.</p>
+<p>Key symptoms we identified:</p>
+<ul>
+<li><strong>Query queue depth spiking</strong> dramatically during 9–11 AM and 2–4 PM windows</li>
+<li><strong>Throttling events</strong> logged at the Fabric capacity level</li>
+<li><strong>Spill-to-disk operations</strong> increasing as memory pressure mounted</li>
+<li>Individual query execution time remaining <em>acceptable in isolation</em>, but <strong>degrading 10–40x under concurrent load</strong></li>
+</ul>
+<p>The data was never the culprit. <strong>Contention was.</strong></p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Layer 3 — The Atlantic Problem: Latency Nobody Mapped</h3>
+<p>Here is where the investigation took an unexpected turn.</p>
+<p>Our Microsoft Fabric capacity tenant was provisioned in a region <strong>across the Atlantic</strong> — physically and network-topologically distant from the majority of our user base. What looked like slow query responses was, in many cases, not slow computation at all. It was <strong>network round-trip time compounding every single interaction</strong>.</p>
+<p>The effects were insidious:</p>
+<ul>
+<li><strong>Gateway timeouts</strong> — connections from local gateways to the remote Fabric tenant were breaching timeout thresholds before query results could be returned, not because queries were slow, but because the <em>network handshake and data transfer time</em> pushed the total wall-clock time over the edge.</li>
+<li><strong>Connection abortions</strong> — under load, TCP connections to the distant tenant were being dropped mid-flight. The client saw a failure. The capacity was actually <em>working</em> — the work was simply never delivered.</li>
+<li><strong>Compounding effect</strong> — contention-induced delay + cross-Atlantic latency + gateway timeout threshold = a perfect storm that made every SLT miss look far worse than the underlying compute performance warranted.</li>
+</ul>
+<p>A query that took 8 seconds to execute looked like a 45-second failure from the user's perspective. The network ate the difference.</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>The Architecture of the Problem</h3>
+<pre><code>
+[User / BI Client]
+       |
+       | (Local network)
+       |
+[On-Premises / Regional Gateway]
+       |
+       | ← Cross-Atlantic hop (~80–150ms RTT)
+       |
+[Microsoft Fabric Capacity Tenant - Remote Region]
+       |
+[Shared Capacity Pool]  ← Contention point: concurrent queries competing here
+       |
+[Dataset / Lakehouse / Warehouse] 
+</code></pre>
+<p>Every query traversed this path — <strong>twice</strong> (request and response). Under contention, queries that lingered in the execution queue long enough would cause the gateway to give up before the answer arrived.</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>What We Did About It</h3>
+<h3>1\. Addressed Contention at the Capacity Layer</h3>
+<ul>
+<li><strong>Scaled up Fabric capacity</strong> during peak windows using autoscale policies</li>
+<li>Implemented <strong>query concurrency limits</strong> and workload management rules to prioritise critical service-level reports</li>
+<li>Introduced <strong>incremental refresh</strong> and <strong>aggregation tables</strong> to reduce raw query payload sizes</li>
+<li>Shifted non-urgent batch workloads to off-peak hours to reduce simultaneous demand</li>
+</ul>
+<h3>2\. Tackled the Geography Problem</h3>
+<ul>
+<li>Engaged with our Fabric tenant configuration to <strong>migrate capacity to a region closer to our primary user base</strong> — a process that required planning but delivered the most dramatic latency improvement</li>
+<li>Increased <strong>gateway timeout thresholds</strong> as an interim measure to prevent premature connection drops while longer queries completed legitimately</li>
+<li>Implemented <strong>connection pooling and keep-alive configurations</strong> on the gateway layer to reduce connection setup overhead on every request</li>
+</ul>
+<h3>3\. Improved Observability</h3>
+<ul>
+<li>Instrumented query telemetry to <strong>distinguish network latency from compute latency</strong> — critical for correctly diagnosing future incidents</li>
+<li>Built a capacity utilisation dashboard to give early warning of contention events before they breached SLTs</li>
+<li>Established a baseline for <em>expected</em> cross-region RTT so anomalies could be detected faster</li>
+</ul>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>The Results</h3>
+<p>Once the contention management and regional migration work completed:</p>
+<ul>
+<li><strong>Average query response time dropped by ~68%</strong> during peak windows</li>
+<li><strong>SLT compliance improved from ~54% to over 91%</strong> within 6 weeks</li>
+<li>Gateway timeouts effectively dropped to near-zero</li>
+<li>User satisfaction scores for the analytics platform improved significantly</li>
+</ul>
+<p>The data, as it turned out, had been perfectly fine the whole time.</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Key Takeaways for Data & Platform Engineers</h3>
+<p>1.  <strong>Don't confuse the symptom with the cause.</strong> Slow data experiences are often infrastructure and concurrency problems wearing a data costume. 2.  <strong>Concurrent query volume is a first-class concern.</strong> Design your capacity with peak concurrency in mind, not just peak data volume. 3.  <strong>Geography matters more than people think.</strong> Cross-region tenancy is often an afterthought in platform provisioning. It shouldn't be. Measure your RTT early and often. 4.  <strong>Gateway timeouts are a network story, not a query story.</strong> If timeouts correlate with specific time windows and user geographies, suspect latency before suspecting code. 5.  <strong>Observability must separate layers.</strong> If you can't distinguish network time from compute time in your telemetry, you will misdiagnose performance problems — repeatedly.</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<h3>Final Thought</h3>
+<p>The most dangerous performance problems are the ones that look obvious but aren't. SLT misses that <em>appear</em> to be data problems can spend months in the wrong queue — being "fixed" by data engineers while the real causes (concurrency limits, tenant geography, gateway configuration) sit untouched.</p>
+<p>Invest the time to instrument your full stack. The answer is rarely where the pain is loudest.</p>
+<ul>
+<li><em> </em></li>
+</ul>
+<p><em>Have you encountered similar patterns in your data platforms? I'd love to hear how your teams approached contention and latency challenges — drop a comment below.</em></p>
+<ul>
+<li><em> </em></li>
+</ul>
+<p><strong>#DataEngineering #MicrosoftFabric #PowerBI #ServiceLevels #DataPlatform #CloudArchitecture #Latency #PerformanceEngineering #Analytics #DataContention #TechLeadership</strong></p>
+      </div>
+      <div class="post-actions">
+        <a href="../blog.html" class="button button-secondary">← Back to Blog</a>
+        <a href="../contact.html" class="button button-primary">Discuss This Topic</a>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>&copy; 2024 Aniruddha's AI & Analytics Blog. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

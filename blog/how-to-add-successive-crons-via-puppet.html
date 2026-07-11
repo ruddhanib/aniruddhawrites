@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to add successive crons via puppet - Aniruddha's AI & Analytics Blog</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="../index.html" class="brand">Aniruddha's AI & Analytics</a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../portfolio.html">Portfolio</a>
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main class="site-main">
+    <article class="blog-post-page">
+      <div class="blog-post-header">
+        <div class="post-meta">
+          <span>infrastructure</span>
+          <span>July 19, 2018</span>
+          <span>397 words</span>
+        </div>
+        <h1>How to add successive crons via puppet</h1>
+        <p class="intro-copy">Puppet is most popular manifest for Infrastrure Automation. I described a very popular issue, that faced, and how it resolved.</p>
+        <p class="post-author">By ruddhani</p>
+      </div>
+      <div class="post-hero"><img src="../content/images/puppet-manifest-cron.png" alt="How to add successive crons via puppet"></div>
+      <div class="blog-post-body">
+        <p>I want to add successive crons via puppet, first one to set as each 10 minutes, and the 2nd one to run in Sunday 7:00PM. The first cron in puppet is working properly, but the 2nd one shows the below error: "Error: Could not retrieve catalog from remote server: Error 400 on SERVER: Invalid relationship: Cron[notifyinactivetargetweekly] { require => File[...notifyinactivetargetweekly.sh] }, because File[...notifyinactivetargetweekly.sh] doesn't seem to be in the catalog Warning: Not using cache on failed catalog Error: Could not retrieve catalog; skipping run" Below are the manifest code.</p>
+<p>cron { 'firstsynccron': command => "${phpapp::DocRootDir}/firstcronsync.sh ${scmdemophp::Environment} ${phpapp::DocRootDir}", require => File["${phpapp::DocRootDir}/firstcronsync.sh"], minute  => '*/10', environment=>["COMPOSER_HOME=${phpapp::DocRootDir}", "SYMFONY_ENV=${phpapp::Environment}", "SYMFONY_DEBUG=${phpapp::Debug}", "PATH=.../usr/local/sbin:/usr/local/bin:/sbin/:/bin/:/usr/sbin/:/usr/bin/" ],</p>
+<p>}-> cron { 'notifyweeklycron': command => "${phpapp::DocRootDir}/notifyweeklycron.sh ${phpapp::Environment} ${phpapp::DocRootDir}", require => File["${phpapp::DocRootDir}/notifyweeklycron.sh"], minute  => '00', hour  => '19', weekday  => 'Sunday', environment=>["COMPOSER_HOME=${phpapp::DocRootDir}", "SYMFONY_ENV=${phpapp::Environment}", "SYMFONY_DEBUG=${phpapp::Debug}", "PATH=.../usr/local/sbin:/usr/local/bin:/sbin/:/bin/:/usr/sbin/:/usr/bin/" ],</p>
+<p>}-></p>
+<p>The hieradata consists the below classloading:</p>
+<p>classes:</p>
+<ul>
+<li>phpapp::mysymfonydeploy</li>
+</ul>
+<p>the init.pp of edsconsoledeploy consists:</p>
+<p>class scmdemophp { $DocRootDir = "/var/code"</p>
+<p>and I checked that the file "/app/code/notifyinactivetargetweekly.sh" exists. UPDATES: I have created the same, but for some reason the cron is not running as per timing:</p>
+<p>file { "${DocRootDir}/notifyweeklycron.sh": ensure  => file, content => "... whatever's in the file, or use a template/source ...", }-> cron { 'notifyweeklycron': command => "${phpapp::DocRootDir}/notifyweeklycron.sh ${phpapp::Environment} ${phpapp::DocRootDir}", require => File["${phpapp::DocRootDir}/notifyweeklycron.sh"], minute  => '*/15', environment=>["COMPOSER_HOME=${phpapp::DocRootDir}", "SYMFONY_ENV=${phpapp::Environment}", "SYMFONY_DEBUG=${phpapp::Debug}", "PATH=.../usr/local/bin:/sbin/:/bin/:/usr/sbin/:/usr/bin/" ],</p>
+<p>}</p>
+<p>but its not running after 15 minutes, need help</p>
+<p>1.  The puppet log says: File[/var/code/firstsynccron.sh]/mode: mode changed '0664' to '0751' 2.  but it does not showing the same for File[/var/code/notifyweeklycron.sh]/mode: mode changed '0664' to '0751' 3.  frequency changes are reflecting though</p>
+<p>I was so confused and searching what to do, I received an answer on a tech forum, and that I want to describe here: What I was missing was using a <code>require</code>, <code>before</code>, <code>subscribe</code> or <code>notify</code> parameter, which says that a resource is related to a file or other resource must contain a valid reference. The <code>require</code> is requiring a file _resource_ which is defined in your Puppet manifests, and also surprisingly it does not necessarily a file on the server location. So what was there in my code:</p>
+<p>require => File["${phpapp::DocRootDir}/notifyinactivetargetweekly.sh"],</p>
+<p>So puppet was expecting, a file resource destined at <code>/var/code/notifyweeklycron.sh</code>should exist as per my manifest, and the fix was:</p>
+<p>file { "${phpapp:DocRootDir}/notifyweeklycron.sh": ensure  => file, content => "... whatever's in the file, or use a template/source ...", }</p>
+<p>My <code>require</code> issue has been resolved.</p>
+      </div>
+      <div class="post-actions">
+        <a href="../blog.html" class="button button-secondary">← Back to Blog</a>
+        <a href="../contact.html" class="button button-primary">Discuss This Topic</a>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>&copy; 2024 Aniruddha's AI & Analytics Blog. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

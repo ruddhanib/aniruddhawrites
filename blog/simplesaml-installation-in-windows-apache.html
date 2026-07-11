@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SimpleSAML Installation in Windows Apache - Aniruddha's AI & Analytics Blog</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="../index.html" class="brand">Aniruddha's AI & Analytics</a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../portfolio.html">Portfolio</a>
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main class="site-main">
+    <article class="blog-post-page">
+      <div class="blog-post-header">
+        <div class="post-meta">
+          <span>apache</span>
+          <span>July 03, 2018</span>
+          <span>173 words</span>
+        </div>
+        <h1>SimpleSAML Installation in Windows Apache</h1>
+        <p class="intro-copy">Setting up SimpleSAMLphp in windows Apache/Xampp kills my one day once ago. With a very limited documentation, what I able to achieve, I explained in this post. Let me know if you liked/disliked it.</p>
+        <p class="post-author">By ruddhani</p>
+      </div>
+      <div class="post-hero"><img src="../content/images/samlsso2.png" alt="SimpleSAML Installation in Windows Apache"></div>
+      <div class="blog-post-body">
+        <p>Say you want to install SimpleSAMLphp in windows Apache/Xampp. Let me tell you what I did so far:</p>
+<p>1. I have downloaded latest stable version from <a href="https://simplesamlphp.org/download">https://simplesamlphp.org/download</a> and placed the unzipped file in Apache folder, i.e. C:\Apache24\simplesamlphp directory contains composer.json. I have downloaded dependencies as well.</p>
+<p>2. Now when I am going to setup the vhost as shows in the site 6. Configuring Apache section as</p>
+<pre><code>
+&lt;VirtualHost *:80&gt;
+        ServerName localhost
+        DocumentRoot C:/Apache24/htdocs
+
+
+&lt;VirtualHost *:80&gt;
+        ServerName service.example.com
+        DocumentRoot C:/Apache24/service.example.com
+
+        Alias /simplesaml C:/Apache24/simplesamlphp/www
+</code></pre>
+<p>3. Changed the config file</p>
+<p>Now I faced the problem: I am unable to open the Alias in browser. And running httpd.exe in browser shows error about the example.com does not exist.</p>
+<p>Later I found that I was doing some mistake... I am going to add one vhost, rather in Windows Xampp, there is one file /xampp/apache/conf/extra/httpd-xampp.conf. Need to add one Alias below /phpmyadmin statement:</p>
+<pre><code>
+Alias /simplesaml "C:/xampp/simplesamlphp/www"
+&lt;Directory "C:/xampp/simplesamlphp/www"&gt;
+        AllowOverride AuthConfig
+        Require all granted
+&lt;/Directory&gt;
+</code></pre>
+<p>Now restart server and hit <a href="http://localhost/simplesaml/">http://localhost/simplesaml/</a> and all you go...Enjoy you SAML!!!!!!!!!!!!!!!!</p>
+      </div>
+      <div class="post-actions">
+        <a href="../blog.html" class="button button-secondary">← Back to Blog</a>
+        <a href="../contact.html" class="button button-primary">Discuss This Topic</a>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>&copy; 2024 Aniruddha's AI & Analytics Blog. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
