@@ -69,6 +69,61 @@ img { max-width: 100%; display: block; }
 
 .brand span { color: var(--primary-red); }
 
+/* Ensure header elements align correctly and place menu icon on the right */
+.header-inner { position: relative; }
+.brand { order: 1; }
+.site-nav { order: 2; }
+.menu-toggle { order: 3; margin-left: auto; }
+
+.menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.menu-toggle:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.menu-toggle span,
+.menu-toggle span::before,
+.menu-toggle span::after {
+  content: '';
+  display: block;
+  width: 1.4rem;
+  height: 2px;
+  background: currentColor;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.menu-toggle span::before {
+  transform: translateY(-5px);
+}
+
+.menu-toggle span::after {
+  transform: translateY(5px);
+}
+
+.menu-toggle[aria-expanded='true'] span {
+  background: transparent;
+}
+
+.menu-toggle[aria-expanded='true'] span::before {
+  transform: rotate(45deg) translate(2px, 2px);
+}
+
+.menu-toggle[aria-expanded='true'] span::after {
+  transform: rotate(-45deg) translate(2px, -2px);
+}
+
 .site-nav { display: flex; flex-wrap: wrap; gap: 0.2rem; }
 .site-nav a {
   position: relative;
@@ -154,8 +209,8 @@ section { margin-bottom: 4rem; }
 
 .hero-copy h1 {
   margin: 0 0 1.2rem;
-  font-size: clamp(3rem, 4.8vw, 4.5rem);
-  max-width: 11ch;
+  font-size: clamp(2.8rem, 6vw, 4.2rem);
+  max-width: 100%;
 }
 
 .hero-copy p,
@@ -479,13 +534,37 @@ section { margin-bottom: 4rem; }
 }
 
 @media (max-width: 680px) {
-  .header-inner { flex-direction: column; align-items: flex-start; }
+  .header-inner { flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+  .site-header { padding: 0.85rem 1rem 0.9rem; }
   .site-main { padding: 1.2rem 1rem 3rem; }
   .hero-copy { padding: 1.5rem; }
   .newsletter-form, .footer-newsletter-form { flex-direction: column; }
   .newsletter-form input, .newsletter-form .button, .footer-newsletter-form input, .footer-newsletter-form button { width: 100%; }
   .footer-grid { grid-template-columns: 1fr; gap: 1.4rem; }
   .footer-bottom { flex-direction: column; }
+  .site-nav { order: 3; display: flex; flex-direction: column; width: 100%; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, opacity 0.25s ease; opacity: 0; }
+  .site-nav.open { max-height: 100vh; opacity: 1; }
+  .site-nav a { width: 100%; padding: 0.95rem 1rem; text-align: left; border-radius: 18px; }
+  .hero-section { gap: 1rem; }
+  .feature-card, .post-card, .series-card, .case-card, .panel-card { padding: 1.2rem; }
+  .post-card h3, .series-card h3, .case-card h3, .feature-card h3 { font-size: 1.2rem; }
+  .blog-post-page { gap: 1.2rem; }
+  .blog-post-header { padding: 1rem 0 0.5rem; }
+  .blog-post-body { padding: 0.5rem 0 0; }
+  .blog-post-body h2, .blog-post-body h3, .blog-post-body h4 { margin-top: 1.4rem; }
+  .post-hero img, .blog-post-body img { margin: 0.6rem 0 1rem; }
+  .footer-column { padding-bottom: 0.5rem; }
+  .site-nav a::after { display: none; }
+  .hero-copy h1 { font-size: clamp(2.4rem, 7vw, 3.6rem); }
+  .brand { font-size: 1.1rem; }
+  .header-inner { gap: 1rem; }
+  .site-main section { margin-bottom: 3rem; }
+  .footer-grid { gap: 1.2rem; }
+  .footer-column ul { gap: 0.65rem; }
+  .post-card .card-top span { font-size: 0.86rem; }
+  .post-card p { font-size: 1rem; }
+  .blog-post-body p, .blog-post-body li { font-size: 1rem; }
+  .menu-toggle { display: inline-flex; order: 2; margin-left: auto; }
 }
 
 .blog-post-page { display: grid; gap: 1.5rem; }
@@ -510,7 +589,7 @@ section { margin-bottom: 4rem; }
 }
 
 @media (max-width: 680px) {
-  .header-inner { flex-direction: column; align-items: flex-start; }
+  .header-inner { flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; }
   .site-main { padding: 1.2rem 1rem 3rem; }
   .hero-copy { padding: 1.5rem; }
   .newsletter-form { flex-direction: column; }

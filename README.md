@@ -1,4 +1,4 @@
-# Blog by Aniruddha
+# Aniruddha Writes
 
 A modern, static website showcasing AI and analytics expertise with a focus on upcoming technologies and trends.
 
