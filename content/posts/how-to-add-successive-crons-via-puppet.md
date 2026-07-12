@@ -1,7 +1,7 @@
 ---
 templateKey: post
 title: How to add successive crons via puppet
-author: ruddhani
+author: Aniruddha
 date: '2018-07-19 10:07:32'
 introImage: ../images/puppet-manifest-cron.png
 tags: '#infrastructure #installation #configurations'

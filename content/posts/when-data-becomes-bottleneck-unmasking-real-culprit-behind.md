@@ -1,7 +1,7 @@
 ---
 templateKey: post
 title: When Data Becomes the Bottleneck: Unmasking the Real Culprit Behind SLT Misses
-author: ruddhani
+author: Aniruddha
 date: '2026-05-13 12:00:00'
 introImage: ../images/composer-and-dependency-injection.png
 tags: '#modern-web-technology'

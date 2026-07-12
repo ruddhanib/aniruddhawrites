@@ -1,7 +1,7 @@
 ---
 templateKey: post
 title: Composer and dependency injection
-author: ruddhani
+author: Aniruddha
 date: '2018-07-06 12:00:00'
 introImage: ../images/composer-and-dependency-injection.png
 tags: '#modern-web-technology'

@@ -1,4 +1,4 @@
-# Aniruddha's AI & Analytics Blog
+# Blog by Aniruddha
 
 A modern, static website showcasing AI and analytics expertise with a focus on upcoming technologies and trends.
 

@@ -1,7 +1,7 @@
 ---
 templateKey: post
 title:  Digital world and Marketing vs Social Media Posting - an elaborate architecture discussion
-author: ruddhani
+author: Aniruddha
 date: '2019-07-28 13:49:56'
 intro_paragraph:  I was discussing with some of my friends, working in current digital world, working best for their clients. They use to do many implementation techniques which effectively grows CLIENT's business.
 tags: '#digital-marketting #SEO #idea-on-automation'

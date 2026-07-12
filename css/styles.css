@@ -27,8 +27,8 @@ body {
   letter-spacing: -0.01em;
 }
 
-a { color: var(--text); text-decoration: none; }
-a:hover { color: var(--primary-red); }
+a { color: var(--muted); text-decoration: none; }
+a:hover { color: var(--text); }
 
 button, input, textarea, select { font: inherit; }
 
@@ -491,7 +491,7 @@ section { margin-bottom: 4rem; }
 .blog-post-page { display: grid; gap: 1.5rem; }
 .blog-post-header { padding: 1.2rem 0 0.2rem; }
 .post-meta { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 0.7rem; color: var(--muted); }
-.post-author { color: var(--primary-blue); font-weight: 600; }
+.post-author { color: var(--primary-red); font-weight: 600; }
 .post-hero img, .blog-post-body img { width: 100%; border-radius: 18px; border: 1px solid var(--border); margin: 0.4rem 0 1rem; }
 .blog-post-body { padding: 0.2rem 0 0; }
 .blog-post-body p, .blog-post-body li { color: var(--text); line-height: 1.9; }

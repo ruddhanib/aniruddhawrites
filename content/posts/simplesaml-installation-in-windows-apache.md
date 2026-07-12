@@ -1,7 +1,7 @@
 ---
 templateKey: post
 title: SimpleSAML Installation in Windows Apache
-author: ruddhani
+author: Aniruddha
 date: '2018-07-03 12:00:00'
 introImage: ../images/samlsso2.png
 tags: '#apache #configurations #SAML #single-signon'

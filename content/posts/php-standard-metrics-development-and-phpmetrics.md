@@ -1,7 +1,7 @@
 ---
 templateKey: post
 title: PHP standard metrics development and PHPMetrics
-author: ruddhani
+author: Aniruddha
 date: '2019-07-26 01:08:20'
 intro_paragraph: >-
   PHPMetrics provides tons of metrics, Complexity: Cyclomatic complexity, Myer's

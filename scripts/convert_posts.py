@@ -174,7 +174,7 @@ for filename in sorted(os.listdir(POST_DIR)):
 <body>
   <header class="site-header">
     <div class="header-inner">
-      <a href="../index.html" class="brand">Aniruddha's AI & Analytics</a>
+      <a href="../index.html" class="brand">Blog by Aniruddha</a>
       <nav class="site-nav">
         <a href="../index.html">Home</a>
         <a href="../blog.html">Blog</a>
@@ -251,7 +251,7 @@ blog_html = f'''<!DOCTYPE html>
 <body>
   <header class="site-header">
     <div class="header-inner">
-      <a href="index.html" class="brand">Aniruddha's AI & Analytics</a>
+      <a href="index.html" class="brand">Blog by Aniruddha</a>
       <nav class="site-nav">
         <a href="index.html">Home</a>
         <a href="blog.html">Blog</a>
@@ -312,7 +312,7 @@ index_html = f'''<!DOCTYPE html>
 <body>
   <header class="site-header">
     <div class="header-inner">
-      <a href="index.html" class="brand">Aniruddha's AI & Analytics</a>
+      <a href="index.html" class="brand">Blog by Aniruddha</a>
       <nav class="site-nav">
         <a href="index.html">Home</a>
         <a href="blog.html">Blog</a>

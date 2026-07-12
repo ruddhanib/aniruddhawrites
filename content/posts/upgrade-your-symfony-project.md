@@ -1,7 +1,7 @@
 ---
 templateKey: Upgrade your Symfony project from 2.x to 3.4
 layout: post
-author: ruddhani
+author: Aniruddha
 date: 2018-07-11T00:12:57.000Z
 introImage: ../images/Symfony-Development.png
 tags: '#misc'

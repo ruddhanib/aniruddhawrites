@@ -1,7 +1,7 @@
 ---
 templateKey: post
 title: 'Idea behind JAMstack, markdown and a Drupal module'
-author: ruddhani
+author: Aniruddha
 date: '2019-10-20 14:11:04'
 intro_paragraph: >-
   We are speaking about JAMstack nowadays. Possibly thinking day and night, how
