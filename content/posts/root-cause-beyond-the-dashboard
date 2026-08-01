@@ -1,5 +1,6 @@
 ---
 layout: post
+templateKey: post
 title: "The DISTKEY That Was Right, and Still Wrong"
 subtitle: "A Redshift Investigation That Traced the Real Root Cause Across Five Layers"
 author: "Aniruddha Banerjee"
