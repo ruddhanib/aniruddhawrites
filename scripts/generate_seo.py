@@ -10,6 +10,7 @@ import json
 import re
 from datetime import datetime
 from pathlib import Path
+from typing import Optional, List, Dict, Any
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE_URL = "https://ruddhanib.github.io/aniruddha"
@@ -53,10 +54,12 @@ def image_url(source: str) -> str:
         return DEFAULT_IMAGE
     if src.startswith(("https://", "http://")):
         return src
-    return f"{SITE_URL}/{src.removeprefix('../').lstrip('/')}"
+    # compat: remove leading ../ if present (removeprefix not in Py3.8)
+    src_clean = src[3:] if src.startswith("../") else src
+    return f"{SITE_URL}/{src_clean.lstrip('/')}"
 
 
-def published_date(source: str) -> str | None:
+def published_date(source: str) -> Optional[str]:
     raw = match(r'<div class=["\']post-meta["\'][^>]*>.*?<span[^>]*>.*?</span>\s*<span[^>]*>(.*?)</span>', source)
     for date_format in ("%B %d, %Y", "%Y-%m-%d"):
         try:
@@ -71,7 +74,7 @@ def json_script(data: dict) -> str:
     return '<script type="application/ld+json">' + encoded.replace("<", "\\u003c") + "</script>"
 
 
-def structured_data(path: Path, source: str, title: str, description: str, canonical: str, article: bool) -> list[dict]:
+def structured_data(path: Path, source: str, title: str, description: str, canonical: str, article: bool) -> List[Dict[str, Any]]:
     if path.name == "index.html":
         return [{
             "@context": "https://schema.org", "@type": "WebSite", "name": SITE_NAME,
@@ -144,7 +147,7 @@ def update_page(path: Path) -> None:
     path.write_text(source.replace("</head>", "  " + metadata(path, source) + "\n</head>", 1), encoding="utf-8")
 
 
-def write_discovery(pages: list[Path]) -> None:
+def write_discovery(pages: List[Path]) -> None:
     sitemap_entries = []
     for page in pages:
         sitemap_entries.append(f"  <url><loc>{page_url(page)}</loc></url>")
