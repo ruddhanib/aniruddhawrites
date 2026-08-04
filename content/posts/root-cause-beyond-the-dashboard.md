@@ -79,6 +79,7 @@ That's not a process the team forgot to follow. It's a capability the platform n
 
 ### Diagram D2 — The Lineage No One Had Mapped
 
+[images/d2.png]
 *flowchart TB
     DS["dim_store<br/>Shared Conformed Dimension"]    DS --> FS["fact_sales<br/>Executive Dashboard"]    DS --> FT["fact_customer_traffic<br/>Staffing Optimization"]    DS --> FI["fact_inventory<br/>Replenishment Planning"]    DS --> FL["fact_labor_hours<br/>Labor Analytics"]    DS --> VF["Vendor Forecasting Tool"]    DS -.-> UNK["Unknown Consumers<br/>(No Lineage Visibility)"]    classDef healthy fill:#d5f5e3,stroke:#2e8b57,color:#000;    classDef warning fill:#fdecea,stroke:#d9534f,color:#000;    classDef unknown fill:#f8f9fa,stroke:#6c757d,color:#000,stroke-dasharray: 5 5;    class FS healthy;    class FT warning;    class FI warning;    class FL warning;    class VF warning;    class UNK unknown;*
 > * A shared conformed dimension can act as an enterprise hub. Without complete lineage visibility, a local optimization may unknowingly impact downstream consumers that were never evaluated. *
