@@ -464,6 +464,7 @@ flowchart LR
 
     E --> F
     F --> G
+
 > Salting was introduced only within the WRK layer to improve physical distribution. The business-facing grain and consumer contracts remained unchanged after reconciliation in DWH.
 
 The second part of the solution was equally important.
