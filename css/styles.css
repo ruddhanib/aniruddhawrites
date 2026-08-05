@@ -199,6 +199,7 @@ section { margin-bottom: 4rem; }
 }
 
 .hero-copy h1,
+.section-heading h1,
 .section-heading h2,
 .blog-post-header h1 {
   font-family: "Space Grotesk", "Manrope", sans-serif;
@@ -252,6 +253,7 @@ section { margin-bottom: 4rem; }
 .panel-card h3 { margin: 0.35rem 0 0.5rem; font-size: 1.12rem; color: #FFFFFF; }
 
 .section-heading { margin-bottom: 1.6rem; }
+.section-heading h1,
 .section-heading h2 { font-size: clamp(2rem, 2.8vw, 2.6rem); margin: 0.2rem 0 0; }
 
 .feature-grid,
