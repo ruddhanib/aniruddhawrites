@@ -78,9 +78,8 @@ The first one you can verify in an afternoon with `svl_query_summary`. The secon
 That's not a process the team forgot to follow. It's a capability the platform never had.
 
 ### Diagram D2 — The Lineage No One Had Mapped
+![The Lineage No One Had Mapped](images/d2.png)
 
-*flowchart TB
-    DS["dim_store<br/>Shared Conformed Dimension"]    DS --> FS["fact_sales<br/>Executive Dashboard"]    DS --> FT["fact_customer_traffic<br/>Staffing Optimization"]    DS --> FI["fact_inventory<br/>Replenishment Planning"]    DS --> FL["fact_labor_hours<br/>Labor Analytics"]    DS --> VF["Vendor Forecasting Tool"]    DS -.-> UNK["Unknown Consumers<br/>(No Lineage Visibility)"]    classDef healthy fill:#d5f5e3,stroke:#2e8b57,color:#000;    classDef warning fill:#fdecea,stroke:#d9534f,color:#000;    classDef unknown fill:#f8f9fa,stroke:#6c757d,color:#000,stroke-dasharray: 5 5;    class FS healthy;    class FT warning;    class FI warning;    class FL warning;    class VF warning;    class UNK unknown;*
 > * A shared conformed dimension can act as an enterprise hub. Without complete lineage visibility, a local optimization may unknowingly impact downstream consumers that were never evaluated. *
 
 A quick word on scope, because the mechanics here are Redshift's, specifically — DISTKEY, slice placement, `DS_DIST_BOTH`. On Snowflake this conversation doesn't happen the same way; there's no distribution key to get wrong, clustering behaves on a completely different axis. On Fabric, you're reasoning about V-Order and file compaction, not which slice a row lives on.
@@ -145,7 +144,7 @@ It became a question about the architecture itself.
 
 ### Environment at a Glance
 
-*(Insert Environment Diagram Here)*
+![Environment at a Glance](images/dall.png)
 
 At this point the investigation had to stop being reactive.
 
@@ -162,9 +161,8 @@ The platform looked like this:
 - Data Marts and Semantic Models — consumer-facing analytics
 
 ### Diagram D3 — One Change, Three Symptoms
+![One Change, Three Symptoms](images/d3.png)
 
-flowchart TB
-    CHANGE["DISTKEY Change on dim_store"]    CHANGE --> S1["Executive Dashboard<br/>Redistribution Eliminated<br/>90 sec → 11 sec"]    CHANGE --> S2["Customer Traffic Model<br/>Slice-Level Skew<br/>Memory Spill"]    CHANGE --> S3["Inventory Load<br/>Background Redistribution<br/>I/O Contention"]    CHANGE --> S4["Materialized View<br/>Incremental Refresh Lost<br/>Full Recompute"]    classDef success fill:#d5f5e3,stroke:#2e8b57,color:#000;    classDef issue fill:#fdecea,stroke:#d9534f,color:#000;    class S1 success;    class S2 issue;    class S3 issue;    class S4 issue;
 > * One physical design change produced four different outcomes. The original dashboard improved dramatically, while other consumers experienced entirely different performance symptoms through unrelated mechanisms. *
 
 We traced each affected consumer through the stack.
@@ -438,32 +436,7 @@ Not for business logic.
 
 ### Diagram D4 — WRK Layer Redesign: Salting Without Breaking the Contract
 
-flowchart LR
-
-    A["WRK Layer Fact Data"]
-
-    B{"High Volume Store<br/>or Digital Channel?"}
-
-    C["Apply Salting<br/>Hash(order_id) % N"]
-
-    D["Keep Natural<br/>store_id"]
-
-    E["Distributed Processing"]
-
-    F["DWH Reconciliation<br/>Re-Aggregate to Original Grain"]
-
-    G["Published Consumer Layer<br/>Contract Unchanged"]
-
-    A --> B
-
-    B -->|Yes| C
-    B -->|No| D
-
-    C --> E
-    D --> E
-
-    E --> F
-    F --> G
+![WRK Layer Redesign: Salting Without Breaking the Contract](images/d2.png)
 
 > Salting was introduced only within the WRK layer to improve physical distribution. The business-facing grain and consumer contracts remained unchanged after reconciliation in DWH.
 
@@ -686,22 +659,7 @@ And often more valuable.
 
 ### Diagram D5 — Before vs After: Where the Skew Lives
 
-flowchart RL
-
-    DASH["Dashboard Slowdown"]
-    MART["Data Mart"]
-    MV["Materialized View"]
-    DWH["DWH Layer"]
-    WRK["WRK Layer"]
-    L1["L1 Layer"]
-    ROOT["Grain Design Decision"]
-
-    DASH --> MART
-    MART --> MV
-    MV --> DWH
-    DWH --> WRK
-    WRK --> L1
-    L1 --> ROOT
+![Before vs After: Where the Skew Lives](images/d2.png)
 
 > The investigation succeeded because the team stopped treating the dashboard as the problem and followed the lineage upstream until reaching the original modeling decision that created the downstream symptoms.
 
