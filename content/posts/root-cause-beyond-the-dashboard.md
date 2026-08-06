@@ -26,6 +26,7 @@ reading_time: "12-15 min"
 ### A Redshift Investigation That Traced the Real Root Cause Across Five Layers
 
 ---
+![A Redshift Investigation That Traced the Real Root Cause Across Five Layers](images/a-redshift-investigation.png)
 
 ## Author's Note
 
@@ -78,6 +79,7 @@ The first one you can verify in an afternoon with `svl_query_summary`. The secon
 That's not a process the team forgot to follow. It's a capability the platform never had.
 
 ### Diagram D2 — The Lineage No One Had Mapped
+
 ![The Lineage No One Had Mapped](images/d2.png)
 
 > * A shared conformed dimension can act as an enterprise hub. Without complete lineage visibility, a local optimization may unknowingly impact downstream consumers that were never evaluated. *
@@ -161,6 +163,7 @@ The platform looked like this:
 - Data Marts and Semantic Models — consumer-facing analytics
 
 ### Diagram D3 — One Change, Three Symptoms
+
 ![One Change, Three Symptoms](images/d3.png)
 
 > * One physical design change produced four different outcomes. The original dashboard improved dramatically, while other consumers experienced entirely different performance symptoms through unrelated mechanisms. *
