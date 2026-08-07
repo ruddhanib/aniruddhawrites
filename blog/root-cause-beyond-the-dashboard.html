@@ -3,13 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The DISTKEY That Was Right, and Still Wrong - Aniruddha's AI & Analytics Blog</title>
+  <title>The DISTKEY That Was Right, and Still Wrong - Aniruddha Writes</title>
   <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" href="../content/images/favicon.png">
+  <meta property="og:image" content="../content/images/banner.png">
+  <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
   <header class="site-header">
     <div class="header-inner">
-      <a href="../index.html" class="brand">Aniruddha's AI & Analytics</a>
+      <a href="../index.html" class="brand">Aniruddha Writes</a>
       <nav class="site-nav">
         <a href="../index.html">Home</a>
         <a href="../blog.html">Blog</a>
@@ -25,7 +28,7 @@
         <div class="post-meta">
           <span>-</span>
           <span>August 01, 2026</span>
-          <span>4680 words</span>
+          <span>4679 words</span>
         </div>
         <h1>The DISTKEY That Was Right, and Still Wrong</h1>
         <p class="intro-copy"></p>
@@ -62,7 +65,7 @@
 <p>The first one you can verify in an afternoon with <code>svl_query_summary</code>. The second one requires knowing something that lived nowhere in the platform — who else depends on <code>dim_store</code> — because nobody had ever built a bus matrix, and the catalog tooling we had covered pipeline lineage within a team's own domain, not cross-team consumption of shared dimensions.</p>
 <p>That's not a process the team forgot to follow. It's a capability the platform never had.</p>
 <h3>Diagram D2 — The Lineage No One Had Mapped</h3>
-<p><img src="../content/images/d2.png" alt="d2"> *flowchart TB DS["dim_store<br/>Shared Conformed Dimension"]    DS --> FS["fact_sales<br/>Executive Dashboard"]    DS --> FT["fact_customer_traffic<br/>Staffing Optimization"]    DS --> FI["fact_inventory<br/>Replenishment Planning"]    DS --> FL["fact_labor_hours<br/>Labor Analytics"]    DS --> VF["Vendor Forecasting Tool"]    DS -.-> UNK["Unknown Consumers<br/>(No Lineage Visibility)"]    classDef healthy fill:#d5f5e3,stroke:#2e8b57,color:#000;    classDef warning fill:#fdecea,stroke:#d9534f,color:#000;    classDef unknown fill:#f8f9fa,stroke:#6c757d,color:#000,stroke-dasharray: 5 5;    class FS healthy;    class FT warning;    class FI warning;    class FL warning;    class VF warning;    class UNK unknown;* > <em> A shared conformed dimension can act as an enterprise hub. Without complete lineage visibility, a local optimization may unknowingly impact downstream consumers that were never evaluated. </em></p>
+<p>*flowchart TB DS["dim_store<br/>Shared Conformed Dimension"]    DS --> FS["fact_sales<br/>Executive Dashboard"]    DS --> FT["fact_customer_traffic<br/>Staffing Optimization"]    DS --> FI["fact_inventory<br/>Replenishment Planning"]    DS --> FL["fact_labor_hours<br/>Labor Analytics"]    DS --> VF["Vendor Forecasting Tool"]    DS -.-> UNK["Unknown Consumers<br/>(No Lineage Visibility)"]    classDef healthy fill:#d5f5e3,stroke:#2e8b57,color:#000;    classDef warning fill:#fdecea,stroke:#d9534f,color:#000;    classDef unknown fill:#f8f9fa,stroke:#6c757d,color:#000,stroke-dasharray: 5 5;    class FS healthy;    class FT warning;    class FI warning;    class FL warning;    class VF warning;    class UNK unknown;* > <em> A shared conformed dimension can act as an enterprise hub. Without complete lineage visibility, a local optimization may unknowingly impact downstream consumers that were never evaluated. </em></p>
 <p>A quick word on scope, because the mechanics here are Redshift's, specifically — DISTKEY, slice placement, <code>DS_DIST_BOTH</code>. On Snowflake this conversation doesn't happen the same way; there's no distribution key to get wrong, clustering behaves on a completely different axis. On Fabric, you're reasoning about V-Order and file compaction, not which slice a row lives on.</p>
 <p>The lesson that survives the platform — a shared table has as many "correct" configurations as it has consumers, and optimizing for the loudest one is a trade, not a fix — that part travels. The mechanism doesn't.</p>
 <p>Ticket closed. Dashboard fast. Everyone went home Tuesday believing it was over.</p>
@@ -255,7 +258,8 @@
 <p>A --> B</p>
 <p>B -->|Yes| C B -->|No| D</p>
 <p>C --> E D --> E</p>
-<p>E --> F F --> G > Salting was introduced only within the WRK layer to improve physical distribution. The business-facing grain and consumer contracts remained unchanged after reconciliation in DWH.</p>
+<p>E --> F F --> G</p>
+<p>> Salting was introduced only within the WRK layer to improve physical distribution. The business-facing grain and consumer contracts remained unchanged after reconciliation in DWH.</p>
 <p>The second part of the solution was equally important.</p>
 <p>Before anything crossed into the DWH layer, the salted buckets were re-aggregated back to the original business grain.</p>
 <p>Consumers never saw the buckets.</p>
@@ -488,7 +492,8 @@
   </main>
   <footer class="site-footer">
     <div class="footer-inner">
-      <p>&copy; 2024 Aniruddha's AI & Analytics Blog. All rights reserved.</p>
+      <p>&copy; 2026 Aniruddha Writes. All rights reserved.</p>
+      <p>Enterprise Data Engineering • AI • Cloud Architecture</p>
     </div>
   </footer>
 </body>
